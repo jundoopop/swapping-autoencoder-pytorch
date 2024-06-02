@@ -9,16 +9,27 @@ from util import is_custom_kernel_supported as is_custom_kernel_supported
 
 if is_custom_kernel_supported():
     module_path = os.path.dirname(__file__)
+    # fused = load(
+    #     'fused',
+    #     sources=[
+    #         os.path.join(module_path, 'fused_bias_act.cpp'),
+    #         os.path.join(module_path, 'fused_bias_act_kernel.cu'),
+    #     ],
+    #     verbose=True,
+    # )
     fused = load(
-        'fused',
-        sources=[ 
-            os.path.join(module_path, 'fused_bias_act.cpp'),
-            os.path.join(module_path, 'fused_bias_act_kernel.cu'),
+        name="fused",
+        sources=[
+            "models/networks/stylegan2_op/fused_bias_act_kernel.cu",
+            "models/networks/stylegan2_op/fused_bias_act.cpp",
         ],
-        verbose=True,
+        extra_cflags=["-O3"],
+        extra_cuda_cflags=["-Xcompiler", "/MD", "-allow-unsupported-compiler"],
+        extra_ldflags=["-lcudart", "-lcublas", "-lcufft", "-lcurand"],
     )
 
 use_custom_kernel = is_custom_kernel_supported()
+
 
 class FusedLeakyReLUFunctionBackward(Function):
     @staticmethod
@@ -44,7 +55,7 @@ class FusedLeakyReLUFunctionBackward(Function):
 
     @staticmethod
     def backward(ctx, gradgrad_input, gradgrad_bias):
-        out, = ctx.saved_tensors
+        (out,) = ctx.saved_tensors
         gradgrad_out = fused.fused_bias_act(
             gradgrad_input, gradgrad_bias, out, 3, 1, ctx.negative_slope, ctx.scale
         )
@@ -65,7 +76,7 @@ class FusedLeakyReLUFunction(Function):
 
     @staticmethod
     def backward(ctx, grad_output):
-        out, = ctx.saved_tensors
+        (out,) = ctx.saved_tensors
 
         grad_input, grad_bias = FusedLeakyReLUFunctionBackward.apply(
             grad_output, out, ctx.negative_slope, ctx.scale
@@ -75,7 +86,7 @@ class FusedLeakyReLUFunction(Function):
 
 
 class FusedLeakyReLU(nn.Module):
-    def __init__(self, channel, negative_slope=0.2, scale=2 ** 0.5):
+    def __init__(self, channel, negative_slope=0.2, scale=2**0.5):
         super().__init__()
 
         self.bias = nn.Parameter(torch.zeros(channel))
@@ -86,7 +97,7 @@ class FusedLeakyReLU(nn.Module):
         return fused_leaky_relu(input, self.bias, self.negative_slope, self.scale)
 
 
-def fused_leaky_relu(input, bias, negative_slope=0.2, scale=2 ** 0.5):
+def fused_leaky_relu(input, bias, negative_slope=0.2, scale=2**0.5):
     global use_custom_kernel
     if use_custom_kernel:
         return FusedLeakyReLUFunction.apply(input, bias, negative_slope, scale)

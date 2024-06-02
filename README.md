@@ -4,6 +4,11 @@
 
 위 라이브러리의 원리를 그대로 사용
 
+# 실패
+
+-> 기존 라이브러리와 환경 차이로 
+
+
 ## Motivation
 
 평소에 Photoshop 의 생성형 AI를 이용한 사진 편집 기능의 원리를 이해하고자 했으며, 
@@ -19,6 +24,25 @@
 
 ![fork 한 소스의 예시 사진](https://camo.githubusercontent.com/67b4e0399bc4c2f2b51077db7391fbc6842750eb825e49b6005e111a5d6c7bdc/68747470733a2f2f74616573756e672e6d652f5377617070696e674175746f656e636f6465722f696e6465785f66696c65732f6368757263685f7374796c655f73776170732e676966)
 
+## 실행 사양
+
+- CUDA 12.1
+  - [설치 참고 자료 - CUDA 설치 문서](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html?_gl=1*cwqpz1*_gcl_au*NDc4OTgxMDQ1LjE3MTczMzQ4NzU).
+- PyTorch 2.3 + CUDA 12.1
+- Python 3.11.8 in Miniconda 3
+
+```cmd
+conda install dominate torchgeometry func_timeout tqdm matplotlib opencv-python lmdb numpy GPUtil Pillow scikit-learn visdom ninja
+```
+
+
+
+
+
+### Pytorch, CUDA
+
+
+
 ## 적용 예시
 
 ### 사용한 텍스처
@@ -31,6 +55,7 @@
 ![정문](https://www.seoultech.ac.kr/storage/www/ckfinder/images/SNUST1649650141448.jpg)
 #### 적용
 
+X
 
 ### 서울과학기술대학교 미래관
 
@@ -38,6 +63,10 @@
 
 
 ## 어려웠던 점
+
+> 맥과 윈도우의 환경 차이로 인한 오류 수정이 쉽지 않았음
+
+![alt text](image-2.png)
 
 ### 설치
 

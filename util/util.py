@@ -479,23 +479,23 @@ def to_numpy(metric_dict):
     return new_dict
 
 
-# def is_custom_kernel_supported():
-#     import torch
-#     version_str = str(torch.version.cuda).split(".")
-#     major = version_str[0]
-#     minor = version_str[1]
-#     return int(major) >= 10 and int(minor) >= 1
-
-
 def is_custom_kernel_supported():
     import torch
+    version_str = str(torch.version.cuda).split(".")
+    major = version_str[0]
+    minor = version_str[1]
+    return int(major) >= 10 and int(minor) >= 1
 
-    version_str = torch.__version__.split(".")
-    if len(version_str) < 2:
-        raise ValueError("Unexpected version string format: " + torch.__version__)
-    major = int(version_str[0])
-    minor = int(version_str[1])
-    return major > 1 or (major == 1 and minor >= 6)
+
+# def is_custom_kernel_supported():
+#     import torch
+
+#     version_str = torch.__version__.split(".")
+#     if len(version_str) < 2:
+#         raise ValueError("Unexpected version string format: " + torch.__version__)
+#     major = int(version_str[0])
+#     minor = int(version_str[1])
+#     return major > 1 or (major == 1 and minor >= 6)
 
 
 def shuffle_batch(x):
