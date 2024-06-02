@@ -56,7 +56,7 @@ class Launcher(TmuxLauncher):
                 load_size=512,
                 evaluation_metrics="simple_swapping",
                 # Specify the two images here.
-                input_structure_image="./testphotos/mountain/fig12/structure/AdobeStock_104191871.jpeg",
+                input_structure_image="./testphotos/seoultech/structure/seoultech/structure.jpg",
                 input_texture_image="./testphotos/mountain/fig12/style/AdobeStock_312564332.jpeg",
                 # alpha == 1.0 corresponds to full swapping.
                 # 0 < alpha < 1 means interpolation
@@ -73,7 +73,7 @@ class Launcher(TmuxLauncher):
                 load_size=512,
                 evaluation_metrics="simple_swapping",
                 # Specify the two images here.
-                input_structure_image="./testphotos/mountain/fig12/structure/AdobeStock_104191871.jpeg",
+                input_structure_image="./testphotos/seoultech/structure/seoultech/structure.jpg",
                 input_texture_image="./testphotos/mountain/fig12/style/AdobeStock_312564332.jpeg",
                 texture_mix_alpha='0.0 0.25 0.5 0.75 1.0',
             )

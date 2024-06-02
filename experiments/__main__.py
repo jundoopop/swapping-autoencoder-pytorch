@@ -24,20 +24,21 @@ def find_launcher_using_name(launcher_name):
 
 
 if __name__ == "__main__":
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # Or whichever GPU you want to use
+
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('name')
-    parser.add_argument('cmd')
-    parser.add_argument('id', nargs='+', type=str)
-    parser.add_argument('--mode', default=None)
-    parser.add_argument('--resume_iter', default=None)
-    parser.add_argument('--continue_train', action='store_true')
-    parser.add_argument('--subdir', default='')
-    parser.add_argument('--title', default='')
-    parser.add_argument('--gpu_id', default=None, type=int)
-    parser.add_argument('--phase', default='test')
-    
+    parser.add_argument("name")
+    parser.add_argument("cmd")
+    parser.add_argument("id", nargs="+", type=str)
+    parser.add_argument("--mode", default=None)
+    parser.add_argument("--resume_iter", default=None)
+    parser.add_argument("--continue_train", action="store_true")
+    parser.add_argument("--subdir", default="")
+    parser.add_argument("--title", default="")
+    parser.add_argument("--gpu_id", default=None, type=int)
+    parser.add_argument("--phase", default="test")
 
     opt = parser.parse_args()
 
@@ -52,7 +53,7 @@ if __name__ == "__main__":
     instance = Launcher()
 
     cmd = opt.cmd
-    #ids = 'all' if 'all' in opt.id else [str(i) for i in opt.id]
+    # ids = 'all' if 'all' in opt.id else [str(i) for i in opt.id]
     ids = opt.id
     if cmd == "launch":
         instance.launch(ids, continue_train=opt.continue_train)
@@ -71,17 +72,20 @@ if __name__ == "__main__":
         instance.close()
         instance.launch(ids, continue_train=opt.continue_train)
     elif cmd == "train":
-        assert len(ids) == 1, '%s is invalid for run command' % (' '.join(opt.id))
+        assert len(ids) == 1, "%s is invalid for run command" % (" ".join(opt.id))
         expid = ids[0]
         for expid in ids:
             if type(expid) == str and (not expid.isnumeric()):
                 expid = instance.find_tag(instance.train_options(), expid)
             else:
                 expid = int(expid)
-        instance.run_command(instance.commands(), expid,
-                             continue_train=opt.continue_train,
-                             gpu_id=opt.gpu_id)
-    elif cmd == 'launch_test':
+        instance.run_command(
+            instance.commands(),
+            expid,
+            continue_train=opt.continue_train,
+            gpu_id=opt.gpu_id,
+        )
+    elif cmd == "launch_test":
         instance.launch(ids, test=True)
     elif cmd == "test":
         test_commands = instance.test_commands()
@@ -92,8 +96,9 @@ if __name__ == "__main__":
                 expid = instance.find_tag(instance.test_options(), expid)
             else:
                 expid = int(expid)
-            instance.run_command(test_commands, expid, opt.resume_iter,
-                                 gpu_id=opt.gpu_id)
+            instance.run_command(
+                test_commands, expid, opt.resume_iter, gpu_id=opt.gpu_id
+            )
             if expid < len(ids) - 1:
                 os.system("sleep 5s")
     elif cmd == "plot_loss":
