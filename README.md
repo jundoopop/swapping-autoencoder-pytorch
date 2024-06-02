@@ -21,8 +21,39 @@
 
 ## 적용 예시
 
+### 사용한 텍스처
+
+![크렘린궁](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrwbY1V-hVzeh24ht742wD-DHDkD_tkG34Tw&s)
+![노트르담성당](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkL1z5YQJzSHOW4iuA6DPH2i_wqWh72O7SgQ&s)
+
 ### 서울과학기술대학교 정문
+#### 원본
+![정문](https://www.seoultech.ac.kr/storage/www/ckfinder/images/SNUST1649650141448.jpg)
+#### 적용
+
 
 ### 서울과학기술대학교 미래관
 
 ### 
+
+
+## 어려웠던 점
+
+### 설치
+
+프로젝트 제작의 대부분의 시간은 환경 설정에 쓰였다.
+
+#### 1.PyTorch 설치
+
+#### 2. CUDA 설정
+
+CUDA 환경변수 설정
+
+#### 3. Conda 에서 GPU 인식
+
+#### 4. C++, C
+
+C++ 컴파일러가 제대로 인식되지 않아 Visual Studio 2022 를 재설치하고, 컴파일러의 위치를 찾는 등의 시간이 소요됐다.
+
+### 원리 이해
+

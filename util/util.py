@@ -405,7 +405,7 @@ def random_crop_noresize(A, crop_size):
     offset_y = np.random.randint(A.size(2) - crop_size[0])
     offset_x = np.random.randint(A.size(3) - crop_size[1])
     return A[
-        :, :, offset_y : offset_y + crop_size[0], offset_x : offset_x + crop_size[1]
+        :, :, offset_y : offset_y + crop_size[0], offset_x: offset_x + crop_size[1]
     ], (offset_y, offset_x)
 
 
